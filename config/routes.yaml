@@ -1,0 +1,8 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+
+ajax_search:
+    path:     /search
+    defaults: { _controller: TutorialBlogBundle:Blog:search }

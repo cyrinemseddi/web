@@ -1,0 +1,28 @@
+{% extends 'template.html.twig' %}
+{% block body %}
+
+ {{ form_start(formarticle,{attr:{novalidate:'novalidate'}})}}
+                    <div class="form-group">
+                      <label>nom</label>
+                    {{ form_widget(formarticle.nom , {'attr': {'class': 'form-control' , 'placeholder' : 'nom'}} ) }}
+                    {{ form_errors(formarticle.nom   ) }}
+                        <label>image</label>
+                        {{ form_widget(formarticle.image , {'attr': {'class': 'form-control' , 'placeholder' : 'image'}} ) }}
+                         {{ form_errors(formarticle.image ) }}
+
+
+  <label>description</label>
+                        {{ form_widget(formarticle.description , {'attr': {'class': 'form-control' , 'placeholder' : 'description'}} ) }}
+                         {{ form_errors(formarticle.description ) }}
+
+                           <label>prix</label>
+                        {{ form_widget(formarticle.prix , {'attr': {'class': 'form-control' , 'placeholder' : 'prix'}} ) }}
+                         {{ form_errors(formarticle.prix ) }}
+
+
+                    </div>
+                    {{ form_widget(formarticle.submit , {'attr': {'class': 'btn btn-info'}} ) }}
+
+                {{ form_end(formarticle) }}
+
+     {% endblock %}

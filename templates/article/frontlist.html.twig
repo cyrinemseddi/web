@@ -1,0 +1,128 @@
+{% extends 'base-front.html.twig' %}
+
+
+{% block body %}
+<div class="breadcrumb-section breadcrumb-bg" >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 text-center">
+                    <div class="breadcrumb-text">
+                        <p>Bour la forme to make your life easier</p>
+                        <h1>Shop</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+<h2>Search A Post !!</h2>
+
+            <div class="sidebar-search">
+
+                <div class="input-group custom-search-form">
+
+                    <input type="text" id="search" class="form-control" placeholder="Search here">
+                </div>
+<br>
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var searchRequest = null;
+            $("#search").keyup(function() {
+                var that = this;
+                var value = $(this).val();
+                var entitySelector = $("#result").html('');
+                if (searchRequest != null)
+                    searchRequest.abort();
+                searchRequest = $.ajax({
+                    type: "POST",
+                    url: "/searchArticle",
+                    dataType: "text",
+                    data:{
+                        'val':value
+                    },
+                    success: function(msg){
+                        if (value===$(that).val()) {
+                            var result = JSON.parse(msg);
+                            $.each(result, function(key, arr) {
+                                $.each(arr, function(id, value) {
+                                    if (key === 'articles') {
+                                        if (id !== 'error') {
+                                            var img='{{ asset("uploads/articles/") }}'+value[3];
+                                            entitySelector.append(
+                                                '<div class="col-lg-4 col-md-6">'+
+                                                '<article class="post-sm">'+
+                                                '<div class="post-thumb">'+
+                                                '<a href="/article/'+id+'" ><img class="w-100" src="'+img+'" alt="Post-Image"></a>'+
+                                                '</div>'+
+                                                '<div class="post-title">'+
+                                                '<h3><a href="/article/'+id+'" >'+value[0]+'</a></h3>'+
+                                                '</div>'+
+                                                '<div class="post-meta">'+
+                                                '<ul class="list-inline post-tag">'+
+                                                '<li class="list-inline-item">'+
+                                                '<img src="'+img+'" alt="author-thumb">'+
+                                                '</li>'+
+                                                '<li class="list-inline-item">'+
+                                                '<a href="#">'+value[4]+'</a>'+
+                                                '</li>'+
+                                                '<li class="list-inline-item">'+
+                                                'April 8, 2022'+
+                                                '</li>'+
+                                                '</ul>'+
+                                                '</div>'+
+                                                '<div class="post-details">'+
+                                                '<p>'+value[1]+'</p>'+
+                                                '</div>'+
+                                                '</article>'+
+                                                '</div>'
+                                            );
+                                        } else {
+                                            entitySelector.append('<div class="error">'+value+'</div>');
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+   
+	<div class="row product-lists">
+		
+{% for l in  tabarticle.data %}
+	<div class="col-lg-4 col-md-6 text-center strawberry">
+					<div class="single-product-item">
+						<div class="product-image">
+        <h5 class="card-title">{{ l.nom }}</h5>
+        <img src="{{ asset('uploads/articles/' ~ l.image ) }}" alt="" width="200" height="200">
+        <p class="card-text">{{ l.prix }}dt</p>
+       <td><a href="{{ path('articledetail2',{'id':l.id}) }}" class="btn btn-primary ">See more</a></td><br>
+      </div>
+    </div>
+  </div>
+  
+{% endfor %}
+<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="pagination-wrap">
+						<ul>
+   {% set path = 'list_article2' %}
+            {% set pages = tabarticle.pages %}
+            {% set currentPage = tabarticle.page %}
+            {% include "article/pagination.html.twig" %}
+            </section>
+    </main>
+			</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+				
+			
+{% endblock %}
+

@@ -1,0 +1,59 @@
+
+
+{% extends 'template.html.twig' %}
+
+
+{% block stylesheet %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+{% endblock %}
+{% block body %}
+
+
+<a href="{{ path('add2') }}" class="btn btn-primary ">Add article</a><br><br>
+<a href="{{ path('users_data_download') }}" class="btn btn-primary ">Generer PDF</a>
+<a href="{{ path('list_archive') }}" class="btn btn-primary ">List archive</a>
+
+<h4>List article</h4>
+
+{% for l in  tabarticle %}
+    <td><img src="{{ asset('uploads/articles/' ~ l.image ) }}" alt="" width="200" height="200"></td>
+    id: {{ l.id }}
+    name: {{ l.nom }}
+    description: {{ l.description }}
+     prix: {{ l.prix }}
+    <a href="{{ path('articledetail',{'id':l.id}) }}"class="btn btn-primary ">See more</a>
+    <a href="{{ path('update',{'id':l.id}) }}"class="btn btn-primary ">Update</a>
+
+<a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</a>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Voulez-vous vraiment supprimer cette séance ?
+                                </div>
+                                <div class="modal-footer">
+                                    <a style="color: #D68910;" href="{{ path('list_article', { id: l.id()}) }}">Annuler</a>
+                                    <a style="color: #D68910;" href="{{ path('remove', { id: l.id()}) }}">Supprimer</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+ 
+    <br>
+
+
+
+
+{% endfor %}
+
+
+{% endblock %}
+

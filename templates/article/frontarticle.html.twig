@@ -1,0 +1,40 @@
+{% extends 'base-front.html.twig' %}
+
+{% block body %}
+
+      <a href="{{ path('list_article2') }}">liste des articles</a>
+
+        <h1>{{tabarticle.nom}}</h1>
+        <img src="{{ asset('uploads/articles/' ~ tabarticle.image ) }}">
+        <a href="#">{{tabarticle.description}}</a>
+
+
+      <table>
+      {% for c in tabcommentaires %}
+
+      <tr>
+          <td>{{ c.date|date  }}</td>                
+          <td>{{ c.auteur }}</td>
+        <td>{{ c.contenu }}</td>
+                              
+        </tr>                
+      {% endfor %}
+      </table>
+              {{ form_start(form,{attr:{novalidate:'novalidate'}})}}
+                          <div class="form-group">
+                            <label>auteur</label>
+                            
+                          {{ form_widget(form.auteur , {'attr': {'class': 'form-control' , 'placeholder' : 'contenu'}} ) }}
+                              {{ form_errors(form.auteur  ) }}
+                              <label>Comment</label>
+                              {{ form_widget(form.contenu , {'attr': {'class': 'form-control' , 'placeholder' : 'contenu'}} ) }}
+                              {{ form_errors(form.contenu  ) }}
+                          </div>
+                          {{ form_widget(form.submit , {'attr': {'class': 'btn btn-info'}} ) }}
+
+                      {{ form_end(form) }}
+        
+
+{% endblock %}
+
+

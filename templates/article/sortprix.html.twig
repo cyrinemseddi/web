@@ -1,0 +1,48 @@
+ {% extends 'template.html.twig' %}
+{% block stylesheet %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+{% endblock %}
+{% block body %}
+
+<a href="{{ path('list_article') }}" class="btn btn-primary ">Retour list article</a><br><br>
+
+
+<h4>List Student tri</h4>
+{% for s in  sortArticle %}
+ <td><img src="{{ asset('uploads/articles/' ~ s.image ) }}" alt="" width="200" height="200"></td>
+    id: {{ s.id }}
+    name: {{ s.nom }}
+    description: {{ s.description }}
+     prix: {{ s.prix }}
+    <a href="{{ path('articledetail',{'id':s.id}) }}"class="btn btn-primary ">See more</a>
+    <a href="{{ path('update',{'id':s.id}) }}"class="btn btn-primary ">Update</a>
+
+<a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</a>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Voulez-vous vraiment supprimer cette séance ?
+                                </div>
+                                <div class="modal-footer">
+                                    <a style="color: #D68910;" href="{{ path('list_article', { id: s.id()}) }}">Annuler</a>
+                                    <a style="color: #D68910;" href="{{ path('remove', { id: s.id()}) }}">Supprimer</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+ 
+    <br>
+ {% endfor %}
+    <br>
+
+   
+{% endblock %}

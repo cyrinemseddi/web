@@ -1,0 +1,10 @@
+<a href="{{ path('add222') }}">Add commentaire</a>
+<h4>List commentaire</h4>
+{% for s in  tabcommentaire %}
+    id: {{ s.id }}
+    autuer: {{ s.auteur }}
+    contenu: {{ s.contenu }}
+    article: {{ s.article.id }}
+    <a href="{{ path('removecommentaire',{'id':s.id}) }}">Remove</a>
+    <br>
+{% endfor %}

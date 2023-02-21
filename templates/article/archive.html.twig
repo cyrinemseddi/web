@@ -1,0 +1,14 @@
+
+{% extends 'template.html.twig' %}
+
+{% block body %}
+{% for l in  tabarticle %}
+    <td><img src="{{ asset('uploads/articles/' ~ l.image ) }}" alt="" width="200" height="200"></td>
+    id: {{ l.id }}
+    name: {{ l.nom }}
+    description: {{ l.description }}
+     prix: {{ l.prix }}
+    <a href="{{ path('articledetail',{'id':l.id}) }}"class="btn btn-primary ">See more</a>
+    <a href="{{ path('update',{'id':l.id}) }}"class="btn btn-primary ">Update</a>
+    {% endfor %}
+    {% endblock %}

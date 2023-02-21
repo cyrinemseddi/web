@@ -1,0 +1,23 @@
+{% extends 'template.html.twig' %}
+{% block body %}
+  <a href="{{ path('list_article') }}"class="btn btn-primary ">liste des articles</a><br>
+     Réfernce article: <a> {{tabarticle.id}}</a> <br>
+   Nom de l'article: <h1>{{tabarticle.nom}}</h1><br>
+   <img src="{{ asset('uploads/articles/' ~ tabarticle.image ) }}"> <br>
+   <a>{{tabarticle.description}}</a> <br>
+ 
+   Prix de l'article: <h3>{{tabarticle.prix}}</h3> <br>
+                  <h3 >liste des commentaires</h3><br>
+{% for c in tabcommentaires %}
+    <p>{{ c.date|date  }}</p>                 
+    <p>{{ c.auteur }}</p>
+    <p>{{ c.contenu }}</p>
+                        
+                         <a href="{{ path('removecommentaire',{'id':c.id}) }}"class="btn btn-primary ">Remove</a> 
+ {% endfor %}
+
+    
+           
+   
+                
+           {% endblock %}

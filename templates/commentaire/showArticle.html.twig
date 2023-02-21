@@ -1,0 +1,10 @@
+id: {{ showarticle.id }}
+name: {{ showarticle.nom }}
+description: {{ showarticle.description }}
+<h3>List commentaire </h3>
+{% for  s in tabcommentaire %}
+nce: {{ s.id }}
+username: {{ s.auteur }}
+moyenne: {{ s.contenu }}
+    <br>
+{% endfor %}
