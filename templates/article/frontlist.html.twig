@@ -25,9 +25,9 @@
                 </div>
 <br>
           <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript">
+    {# <script type="text/javascript">
         jQuery(document).ready(function() {
-            var searchRequest = null;
+            {# var searchRequest = null;
             $("#search").keyup(function() {
                 var that = this;
                 var value = $(this).val();
@@ -86,25 +86,13 @@
                         }
                     }
                 });
-            });
+            }); 
         });
     </script>
-   
-	<div class="row product-lists">
-		
-{% for l in  tabarticle.data %}
-	<div class="col-lg-4 col-md-6 text-center strawberry">
-					<div class="single-product-item">
-						<div class="product-image">
-        <h5 class="card-title">{{ l.nom }}</h5>
-        <img src="{{ asset('uploads/articles/' ~ l.image ) }}" alt="" width="200" height="200">
-        <p class="card-text">{{ l.prix }}dt</p>
-       <td><a href="{{ path('articledetail2',{'id':l.id}) }}" class="btn btn-primary ">See more</a></td><br>
-      </div>
-    </div>
-  </div>
-  
-{% endfor %}
+    #}
+
+	<div class="row product-lists" id="articlelist">
+	{% include "article/filter_list.html.twig" %}
 <div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="pagination-wrap">
@@ -124,5 +112,8 @@
 	
 				
 			
+{% endblock %}
+{% block javascript %}
+<script src="{{ asset('asset/js/filter.js') }}"></script>
 {% endblock %}
 

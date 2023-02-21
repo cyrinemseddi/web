@@ -38,16 +38,22 @@ class ArticleRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public function findProductsPaginated(int $page, int $limit = 6): array
+    public function findProductsPaginated(int $page, int $limit = 6 ,$filter =null ): array
     {
         $limit = abs($limit);
 
         $result = [];
 
         $query = $this->getEntityManager()->createQueryBuilder()
-            ->select('c')
-            ->from('App\Entity\Article', 'c')
-            ->setMaxResults($limit)
+            ->select('a')
+            ->from('App\Entity\Article', 'a') ;
+
+            if($filter !=null){
+                $query->andWhere('a.nom LIKE :val OR a.description LIKE :val OR a.prix LIKE :val OR a.etat LIKE :val')
+                ->setParameter('val',  '%'.$filter.'%');
+            }
+
+            $query->setMaxResults($limit)
             ->setFirstResult(($page * $limit) - $limit);
 
         $paginator = new Paginator($query);
@@ -112,5 +118,20 @@ class ArticleRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    
+    // aded for filtring 
+   /**
+    * @return Article[] Returns an array of Article objects
+    */
+   public function findByAnyField($value): array
+   {
+       return $this->createQueryBuilder('a')
+           ->andWhere('a.nom LIKE :val OR a.description LIKE :val OR a.prix LIKE :val OR a.etat LIKE :val')
+           ->setParameter('val',  '%'.$value.'%')
+           ->orderBy('a.id', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
 }

@@ -33,25 +33,36 @@ class CommentaireController extends AbstractController
 
                return $this->render("commentaire/list.html.twig",array("tabcommentaire"=>$commentaire));
     }
-
-
+ 
 
     #[Route('/addcommentaire', name: 'add222')]
-    public function addcommentaire(ManagerRegistry $doctrine,Request $request)
+    public function addcommentaire(ManagerRegistry $doctrine,Request $request , CommentaireRepository  $commentaireRepository)
     {
         $commentaire= new commentaire;
         $form= $this->createForm(CommentaireType::class,$commentaire);
         $form->handleRequest($request) ;
         if ($form->isSubmitted()){
-            $em= $doctrine->getManager();
-             $em->persist($commentaire);
-             $em->flush();
+            $this->removeBadWords($commentaire);
+            $commentaireRepository->save($commentaire, true);
              return  $this->redirectToRoute("list_commentaire");
          }
         return $this->renderForm("commentaire/add.html.twig",array("formcommentaire"=>$form));
     }
 
-  
+    function removeBadWords($comment) {
+        //hedha tableau taa lklem li thebou yestnahha 
+        $badWords = array("bad", "words");
+        $words = explode(" ", $comment->getContenu());
+        foreach ($words as &$word) { 
+            if (in_array(strtolower($word), $badWords)) { 
+                $word = str_repeat("*", strlen($word)); 
+            }
+        }
+        $newComment = implode(" ", $words); 
+        echo $newComment;
+        $comment->setContenu(  $newComment);
+        return $comment;
+    }
   
 
 }

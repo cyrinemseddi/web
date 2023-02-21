@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
 use App\Entity\Commentaire;
@@ -36,16 +37,29 @@ class ArticleController extends AbstractController
     #[Route('/listarticle', name: 'list_article')]
     public function listarticle(articleRepository $repository,Request $request) : Response
     {
+        $filter = $request->get("filter");
+        $articles = [];
+        if ($filter != null) {
+            $articles  = $repository->findByAnyField($filter);
+            return  new JsonResponse([ 
+                "content" =>   $this->renderView('article/list.html.twig', [
+                    'tabarticle' => $articles,
+                ])
+            ]);
+        } else {
+            $articles  = $repository->findAll();
+            
+            return $this->render('article/list.html.twig', [
+                'tabarticle' => $articles,
+            ]);
+        }
        
-       $articles= $repository->findByExampleField("desarchive");
-        return $this->render("article/list.html.twig",
-            array('tabarticle'=>$articles));
+      
     }
 
     #[Route('/listarchive', name: 'list_archive')]
     public function listarchive(articleRepository $repository,Request $request) : Response
     {
-       
        $articles= $repository->findAll();
         return $this->render("article/archive.html.twig",
             array('tabarticle'=>$articles));
@@ -75,15 +89,13 @@ class ArticleController extends AbstractController
                 }
                 $article->setImage($newFilename);
             }
-
-            
              $em= $doctrine->getManager();
              $article->setEtat("desarchive");
              $em->persist($article);
              $em->flush();
              return  $this->redirectToRoute("list_article");
          }
-         return $this->renderForm("article/add.html.twig",array("formarticle"=>$form));
+         return $this->renderForm("article/add.html.twig",array( "formarticle"=>$form));
     }
     //modifier article
     #[Route('/updateForm/{id}', name: 'update')]
@@ -193,12 +205,26 @@ public function Article2(ArticleRepository $articleRepository,ManagerRegistry $d
 #[Route('/listarticle2', name: 'list_article2')]
 public function listarticle2(articleRepository $repository,Request $request)
 {
-    $page = $request->query->getInt('page', 1);;
-    $article = $repository->findProductsPaginated($page, 3);
-      
-       
+
+    $filter = $request->get("filter");
+    $page = $request->query->getInt('page', 1); 
+    $article = $repository->findProductsPaginated($page, 3 , $filter); 
     // $classrooms= $this->getDoctrine()->getRepository(classroomRepository::class)->findAll();
-    return $this->render("article/frontlist.html.twig",["tabarticle"=>$article]);
+   // return $this->render("article/frontlist.html.twig",["tabarticle"=>$article]);
+      
+    if ($filter != null) { 
+        return  new JsonResponse([ 
+            "content" => $this->renderView('article/filter_list.html.twig', [
+                'tabarticle' => $article,
+            ])
+        ]);
+    } else {
+        return $this->render('article/frontlist.html.twig', [
+            'tabarticle' => $article,
+            
+        ]);
+    }
+
 }
 
 

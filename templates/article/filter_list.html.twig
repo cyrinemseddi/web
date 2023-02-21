@@ -1,0 +1,20 @@
+{% if tabarticle is empty %}
+	<h1>no article found</h1>
+{% else %}
+
+	{% for l in  tabarticle.data %}
+		<div class="col-lg-4 col-md-6 text-center strawberry">
+			<div class="single-product-item">
+				<div class="product-image">
+					<h5 class="card-title">{{ l.nom }}</h5>
+					<img src="{{ asset('uploads/articles/' ~ l.image ) }}" alt="" width="200" height="200">
+					<p class="card-text">{{ l.prix }}dt</p>
+					<td>
+						<a href="{{ path('articledetail2',{'id':l.id}) }}" class="btn btn-primary ">See more</a>
+					</td><br>
+				</div>
+			</div>
+		</div>
+
+	{% endfor %}
+{% endif %}

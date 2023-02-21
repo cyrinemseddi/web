@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Entity;
 
 use App\Repository\CommentaireRepository;
@@ -16,7 +17,7 @@ class Commentaire
 
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
     #[ORM\JoinColumn(onDelete: "CASCADE")]
-    private ?article $article = null;
+    private ?Article $article = null;
 
     #[ORM\Column(length: 10)]
     #[Assert\NotBlank(message: "veuillez saisir votre nom")]
@@ -34,12 +35,12 @@ class Commentaire
         return $this->id;
     }
 
-    public function getArticle(): ?article
+    public function getArticle(): ?Article
     {
         return $this->article;
     }
 
-    public function setArticle(?article $article): self
+    public function setArticle(?Article $article): self
     {
         $this->article = $article;
 

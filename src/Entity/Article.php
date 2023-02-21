@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
@@ -55,6 +56,10 @@ class Article
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
+    }
+
+    public function __toString(){
+        return $this->nom;
     }
 
     public function getId(): ?int
@@ -151,4 +156,8 @@ class Article
 
         return $this;
     }
+
+
+
+    
 }
